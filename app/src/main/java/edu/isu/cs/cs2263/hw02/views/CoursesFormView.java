@@ -15,12 +15,15 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
+import lombok.Getter;
+import lombok.Setter;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.materialdesign2.MaterialDesignP;
 import org.kordamp.ikonli.materialdesign2.MaterialDesignR;
 
 public class CoursesFormView extends AppView {
 
+    @Getter @Setter
     private TextField tfName;
     private Spinner<Integer> spnNumber;
     private Spinner<Integer> spnCredits;
@@ -38,6 +41,7 @@ public class CoursesFormView extends AppView {
         tfName = new TextField();
         tfName.setPromptText("Enter a course name...");
         tfName.setMinWidth(400);
+        tfName.setId("newName");
 
         Label lblName = new Label("Name:");
         lblName.setTextAlignment(TextAlignment.RIGHT);

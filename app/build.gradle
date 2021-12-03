@@ -10,6 +10,8 @@ plugins {
     // Apply the application plugin to add support for building a CLI application in Java.
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.9'
+    id "io.freefair.lombok" version "6.3.0"
+    id 'jacoco'
 }
 
 repositories {
@@ -19,11 +21,12 @@ repositories {
 }
 
 dependencies {
-    // Use JUnit Jupiter API for testing.
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.6.2'
+    implementation 'org.junit.jupiter:junit-jupiter:5.7.0'
+    implementation 'org.junit.jupiter:junit-jupiter:5.7.0'
 
-    // Use JUnit Jupiter Engine for testing.
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine'
+    // Use JUnit Jupiter API for testing.
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
 
     // This dependency is used by the application.
     implementation 'com.google.guava:guava:29.0-jre'
@@ -33,6 +36,13 @@ dependencies {
     implementation 'org.kordamp.ikonli:ikonli-fontawesome5-pack:12.1.0'
     implementation 'org.kordamp.ikonli:ikonli-materialdesign2-pack:12.1.0'
     implementation 'org.kordamp.ikonli:ikonli-material2-pack:12.1.0'
+
+    //testfx
+    implementation 'org.testfx:testfx-core:4.0.16-alpha'
+    implementation 'org.testfx:testfx-junit5:4.0.16-alpha'
+
+    //log4j2
+    implementation group: 'org.apache.logging.log4j', name: 'log4j', version: '2.8.2', ext: 'pom'
 }
 
 application {
@@ -40,10 +50,25 @@ application {
     mainClass = 'edu.isu.cs.cs2263.hw02.App'
 }
 
-tasks.named('test') {
-    // Use junit platform for unit tests.
+test {
     useJUnitPlatform()
+    finalizedBy jacocoTestReport
 }
+
+jacocoTestReport {
+    dependsOn test // tests are required to run before generating the report
+    reports {
+        xml.required = false
+        csv.required = false
+        html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+    }
+}
+
+jacoco {
+    toolVersion = "0.8.7"
+    reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir')
+}
+
 
 javafx {
     version = "17"

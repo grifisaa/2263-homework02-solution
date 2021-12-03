@@ -17,6 +17,8 @@ import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
+import lombok.Getter;
+import lombok.Setter;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.materialdesign2.MaterialDesignF;
 import org.kordamp.ikonli.materialdesign2.MaterialDesignP;
@@ -27,6 +29,7 @@ import java.util.Vector;
 
 public class App extends Application {
 
+    @Getter @Setter
     private Vector<Course> courses;
     private AppView currentView;
     private final Map<String, AppView> views;
@@ -64,24 +67,28 @@ public class App extends Application {
         primaryStage.setTitle("Course View");
 
         Button display = new Button("Display (dept.)");
+        display.setId("displayDepts");
         display.setOnAction(event -> {
            displayList();
         });
         display.setGraphic(FontIcon.of(MaterialDesignF.FORMAT_LIST_TEXT, 20));
 
         Button newCourse = new Button("New Course");
+        newCourse.setId("newCourse");
         newCourse.setOnAction(event -> {
             showCourseForm();
         });
         newCourse.setGraphic(FontIcon.of(MaterialDesignP.PLAYLIST_PLUS, 20));
 
         Button exit = new Button("Exit");
+        exit.setId("exit");
         exit.setOnAction(event -> {
             exit();
         });
         exit.setGraphic(FontIcon.of(MaterialDesignP.POWER, 20));
 
         depts = new ChoiceBox<>();
+        depts.setId("dropDown");
         depts.setOnAction(event -> {
             int selectedIndex = depts.getSelectionModel().getSelectedIndex();
             // update the display button
@@ -124,10 +131,6 @@ public class App extends Application {
         FontIcon fi = FontIcon.of(MaterialDesignF.FLASK_EMPTY, 32);
 
         primaryStage.show();
-    }
-
-    public Vector<Course> getCourses() {
-        return courses;
     }
 
     private void setView(String viewName) {
